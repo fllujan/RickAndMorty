@@ -4,7 +4,7 @@ import Combine
 
 class CharacterListviewModel: ViewModel {
     
-    var event: Observable<Event<CharacterAndInfo>> = Observable(.loading)
+    private (set) var event: Observable<Event<CharacterAndInfo>> = Observable(.loading)
     
     private let charactersUseCase: CharactersProtocol
     

@@ -2,7 +2,7 @@ import SwiftUI
 
 final class CharacterDetailViewModel: ViewModel, ObservableObject {
     
-    @Published var event: Event<[Episode]> = .loading
+    @Published private (set) var event: Event<[Episode]> = .loading
     
     private let episodesUseCase: EpisodesProtocol
     

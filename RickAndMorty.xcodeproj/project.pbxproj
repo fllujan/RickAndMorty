@@ -513,7 +513,6 @@
 		DEC952A328AAB078000274B2 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				DEC952D728AAC839000274B2 /* Storyboards */,
 				DEC952A528AAB0B7000274B2 /* Detail */,
 				DEC952A428AAB0AC000274B2 /* List */,
 			);
@@ -523,6 +522,7 @@
 		DEC952A428AAB0AC000274B2 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				DEC952D728AAC839000274B2 /* Storyboards */,
 				DE10A6AA28AB73EA00DB9CA5 /* Cells */,
 				DE10A6A928AB73DE00DB9CA5 /* Adapters */,
 				DEC9527328AAAB2A000274B2 /* CharacterListViewController.swift */,
