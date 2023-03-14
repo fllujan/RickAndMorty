@@ -26,7 +26,7 @@ final class RemoteDataSourceImplTests: XCTestCase {
         let count = 826
         let pages = 42
         
-        let result = sut.getCharacters(next: 1)
+        let result = sut.getCharacters(next: 1, searchText: "")
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertTrue(isData)
@@ -50,7 +50,7 @@ final class RemoteDataSourceImplTests: XCTestCase {
     func test_when_call_characters_and_result_error_should_see_the_error() {
         mockApiURLSession.apiError = true
         
-        let result = sut.getCharacters(next: 1)
+        let result = sut.getCharacters(next: 1, searchText: "")
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertFalse(isData)

@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  RickAndMorty
 //
-//  Created by flujan on 20/12/22.
+//  Created by flujan on 13/03/23.
 //
 
 import UIKit

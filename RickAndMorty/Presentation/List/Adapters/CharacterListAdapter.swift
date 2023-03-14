@@ -1,19 +1,19 @@
 import UIKit
 
-protocol CharacterListApapterProtocol {
+protocol CharacterListApapterDelegate {
     var arrayData: [Character] { set get }
     var reload: Bool { set get }
     func setCollectionView(_ collectionView: UICollectionView)
 }
 
-class CharacterListAdapter: NSObject, CharacterListApapterProtocol {
+class CharacterListAdapter: NSObject, CharacterListApapterDelegate {
     
-    private weak var controller: CharacterListViewControllerProtrocol?
+    private weak var controller: CharacterListViewControllerDelegate?
     
     var arrayData = [Character]()
     var reload: Bool = true
     
-    init(controller: CharacterListViewControllerProtrocol) {
+    init(controller: CharacterListViewControllerDelegate) {
         self.controller = controller
     }
     

@@ -1,14 +1,19 @@
 import UIKit
 import SwiftUI
+import Combine
 
-protocol CharacterListViewControllerProtrocol: NSObjectProtocol {
+protocol CharacterListViewControllerDelegate: NSObjectProtocol {
     func goToDetail(_ character: Character)
     func getMoreCharacters()
+    func didFilterWithResult(_ searchText: String)
 }
 
 class CharacterListViewController: UIViewController {
     
     @IBOutlet private weak var clvCharacter: UICollectionView!
+    @IBOutlet private weak var srBCharacter: UISearchBar!
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
@@ -18,14 +23,14 @@ class CharacterListViewController: UIViewController {
     }()
     
     var viewModel: CharacterListviewModel?
-    var listAdapter: CharacterListApapterProtocol?
+    var listAdapter: CharacterListApapterDelegate?
+    var searchAdpater: CharacterSearchAdapterDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(spinner)
         suscriptions()
         setupAdapter()
-        getMoreCharacters()
     }
     
     override func viewDidLayoutSubviews() {
@@ -34,11 +39,12 @@ class CharacterListViewController: UIViewController {
     }
     
     func setupAdapter() {
-        self.listAdapter?.setCollectionView(clvCharacter)
+        listAdapter?.setCollectionView(clvCharacter)
+        searchAdpater?.setSearchBar(srBCharacter)
     }
     
     private func suscriptions() {
-        viewModel?.event.observer { [weak self] event in
+        viewModel?.$event.sink { [weak self] event in
             switch event {
             case .loading:
                 self?.spinner.startAnimating()
@@ -52,17 +58,23 @@ class CharacterListViewController: UIViewController {
                 self?.clvCharacter.reloadData()
             }
         }
+        .store(in: &cancellables)
     }
 }
 
-extension CharacterListViewController: CharacterListViewControllerProtrocol {
+extension CharacterListViewController: CharacterListViewControllerDelegate {
     func getMoreCharacters() {
         listAdapter?.reload = false
-        self.viewModel?.loadMoreCharacters()
+        viewModel?.loadMoreCharacters()
     }
     
     func goToDetail(_ character: Character) {
         let controller = UIHostingController(rootView: CharacterDetailView.build(character: character))
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func didFilterWithResult(_ searchText: String) {
+        listAdapter?.arrayData = []
+        viewModel?.searchCharacters(searchText)
     }
 }

@@ -8,7 +8,7 @@ final class MockRemoteDataSourceImpl: RemoteDataSource {
     var remoteCount: Int = 0
     var remoteError: Bool = false
     
-    func getCharacters(next: Int) -> Future<CharacterDto, Failure> {
+    func getCharacters(next: Int, searchText: String) -> Future<CharacterDto, Failure> {
         remoteCall = true
         remoteCount += 1
         

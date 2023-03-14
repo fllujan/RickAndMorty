@@ -9,8 +9,8 @@ class RepositoryImpl: Repository {
         self.remoteDataSource = remoteDataSource
     }
     
-    func getCharacters(next: Int) -> AnyPublisher<CharacterAndInfo, Failure> {
-        remoteDataSource.getCharacters(next: next)
+    func getCharacters(next: Int, searchText: String) -> AnyPublisher<CharacterAndInfo, Failure> {
+        remoteDataSource.getCharacters(next: next, searchText: searchText)
             .map { $0.toCharacterAndInfo }
             .eraseToAnyPublisher()
     }

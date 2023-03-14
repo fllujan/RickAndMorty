@@ -7,7 +7,7 @@ final class MockRepository: Repository {
     var repoCount: Int = 0
     var repoError: Bool = false
     
-    func getCharacters(next: Int) -> AnyPublisher<CharacterAndInfo, Failure> {
+    func getCharacters(next: Int, searchText: String) -> AnyPublisher<CharacterAndInfo, Failure> {
         repoCall = true
         repoCount += 1
         

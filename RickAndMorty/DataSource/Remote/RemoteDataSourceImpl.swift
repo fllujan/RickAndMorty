@@ -9,8 +9,12 @@ struct RemoteDataSourceImpl: RemoteDataSource {
         self.api = api
     }
     
-    func getCharacters(next: Int) -> Future<CharacterDto, Failure> {
-        api.get(with: "/character/?page=\(next)")
+    func getCharacters(next: Int, searchText: String) -> Future<CharacterDto, Failure> {
+        var path = "/character/?page=\(next)"
+        if !searchText.isEmpty {
+            path += "&name=\(searchText)"
+        }
+        return api.get(with: path)
     }
     
     func getEpisodes(episodeId: String) -> Future<[EpisodeDto], Failure> {

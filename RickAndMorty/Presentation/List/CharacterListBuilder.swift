@@ -13,6 +13,7 @@ extension CharacterListViewController {
         
         controller.viewModel = CharacterListviewModel(charactersUseCase: CharacterListFactory.makeCharactersUseCase())
         controller.listAdapter = CharacterListAdapter(controller: controller)
+        controller.searchAdpater = CharacterSearchAdapter(controller: controller)
         
         return controller
     }

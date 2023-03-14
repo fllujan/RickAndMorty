@@ -8,7 +8,7 @@ final class MockCharactersUseCase: CharactersProtocol {
     var countCall: Int = 0
     var isError: Bool = false
     
-    func execute(next: Int) -> AnyPublisher<CharacterAndInfo, Failure> {
+    func execute(next: Int, searchText: String) -> AnyPublisher<CharacterAndInfo, Failure> {
         self.isCall = true
         self.countCall += 1
         

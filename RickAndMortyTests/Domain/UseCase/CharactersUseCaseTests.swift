@@ -17,7 +17,7 @@ final class CharactersUseCaseTests: XCTestCase {
     }
     
     func test_when_call_characters_repository_should_call_repository() {
-        let _ = sut.execute(next: 1)
+        let _ = sut.execute(next: 1, searchText: "")
         
         XCTAssertTrue(mockRepository.repoCall)
         XCTAssertEqual(mockRepository.repoCount, 1)
@@ -30,7 +30,7 @@ final class CharactersUseCaseTests: XCTestCase {
         let pages = 42
         let next = "https://rickandmortyapi.com/api/character?page=2"
         
-        let result = sut.execute(next: 1)
+        let result = sut.execute(next: 1, searchText: "")
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertTrue(isData)
@@ -50,7 +50,7 @@ final class CharactersUseCaseTests: XCTestCase {
     func test_when_call_characters_result_error_should_see_the_error() {
         mockRepository.repoError = true
         
-        let result = sut.execute(next: 1)
+        let result = sut.execute(next: 1, searchText: "")
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertFalse(isData)

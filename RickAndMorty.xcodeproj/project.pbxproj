@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA881A0C29C059A000614F39 /* CharacterSearchAdpater.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA881A0B29C059A000614F39 /* CharacterSearchAdpater.swift */; };
 		DE10A6AC28AB745D00DB9CA5 /* CharacterListAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE10A6AB28AB745D00DB9CA5 /* CharacterListAdapter.swift */; };
 		DE10A6AE28AB775600DB9CA5 /* CharacterListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE10A6AD28AB775600DB9CA5 /* CharacterListCollectionViewCell.swift */; };
 		DE10A6B228AB848600DB9CA5 /* CharacterDetailViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE10A6B128AB848600DB9CA5 /* CharacterDetailViewBuilder.swift */; };
@@ -99,6 +100,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA881A0B29C059A000614F39 /* CharacterSearchAdpater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSearchAdpater.swift; sourceTree = "<group>"; };
 		DE10A6AB28AB745D00DB9CA5 /* CharacterListAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListAdapter.swift; sourceTree = "<group>"; };
 		DE10A6AD28AB775600DB9CA5 /* CharacterListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE10A6B128AB848600DB9CA5 /* CharacterDetailViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailViewBuilder.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				DE10A6AB28AB745D00DB9CA5 /* CharacterListAdapter.swift */,
+				AA881A0B29C059A000614F39 /* CharacterSearchAdpater.swift */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -925,6 +928,7 @@
 				DEC952CE28AAC1F5000274B2 /* Observable.swift in Sources */,
 				DEC952E028AACC76000274B2 /* RemoteDataSource.swift in Sources */,
 				DEC9527428AAAB2A000274B2 /* CharacterListViewController.swift in Sources */,
+				AA881A0C29C059A000614F39 /* CharacterSearchAdpater.swift in Sources */,
 				DEA4CA382954D10A0045DA2A /* UIFont+Extension.swift in Sources */,
 				DEC952C828AAC154000274B2 /* CharactersProtocol.swift in Sources */,
 				DEC952E628AAD2F2000274B2 /* ApiUrlSession.swift in Sources */,

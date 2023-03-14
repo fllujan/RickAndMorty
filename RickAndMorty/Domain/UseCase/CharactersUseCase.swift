@@ -9,7 +9,7 @@ struct CharactersUseCase: CharactersProtocol {
         self.repository = repository
     }
     
-    func execute(next: Int) -> AnyPublisher<CharacterAndInfo, Failure> {
-        repository.getCharacters(next: next)
+    func execute(next: Int, searchText: String) -> AnyPublisher<CharacterAndInfo, Failure> {
+        repository.getCharacters(next: next, searchText: searchText)
     }
 }

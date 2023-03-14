@@ -66,6 +66,30 @@ final class CharacterListViewModelTests: XCTestCase {
         }
 
     }
+    
+    func test_when_search_characters_should_return_characters() {
+        let name = "Rick Sanche"
+        let status = "Alive"
+        let species = "Human"
+        let pages = 42
+        let next = "https://rickandmortyapi.com/api/character?page=2"
+        
+        sut.searchCharacters("Rick Sanche")
+        
+        checkEvent {
+            XCTAssertTrue(self.isData)
+            XCTAssertFalse(self.isError)
+        } onData: { characterAndInfo in
+            let character = characterAndInfo.characters.first!
+            let info = characterAndInfo.info
+            
+            XCTAssertEqual(character.name, name)
+            XCTAssertEqual(character.status, status)
+            XCTAssertEqual(character.species, species)
+            XCTAssertEqual(info.pages, pages)
+            XCTAssertEqual(info.next, next)
+        }
+    }
 }
 
 
@@ -73,7 +97,7 @@ extension CharacterListViewModelTests {
     
     private func checkEvent(onLoading: @escaping () -> Void, onData: ((CharacterAndInfo) -> Void)? = nil, onError: ((Failure?) -> Void)? = nil) {
         let exp = expectation(description: "waiting")
-        sut.event.observer { event in
+        let cancellable = sut.$event.sink { event in
             switch event {
             case .loading:
                 self.isLoading = true
@@ -89,5 +113,6 @@ extension CharacterListViewModelTests {
         }
         
         wait(for: [exp], timeout: 1)
+        cancellable.cancel()
     }
 }

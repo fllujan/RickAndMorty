@@ -3,7 +3,7 @@ import Combine
 
 final class MockRepository: Repository {
     
-    func getCharacters(next: Int) -> AnyPublisher<CharacterAndInfo, Failure> {
+    func getCharacters(next: Int, searchText: String) -> AnyPublisher<CharacterAndInfo, Failure> {
         let response: AnyPublisher<CharacterDto, Failure> = Util.getDataMock(jsonName: "MockCharacters")
         return response.map { $0.toCharacterAndInfo }
             .eraseToAnyPublisher()
