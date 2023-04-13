@@ -33,10 +33,12 @@ struct EpisodeView: View {
     }
 }
 
+#if DEBUG
 struct EpisodeView_Previews: PreviewProvider {
     static var previews: some View {
-        EpisodeView(episode: MockDetailView.mockEpisode(name: "Pilot de name is very colti"))
+        EpisodeView(episode: MockCharacterDetailView.mockEpisode(name: "Pilot de name is very colti"))
             .previewLayout(.sizeThatFits)
             .padding()
     }
 }
+#endif

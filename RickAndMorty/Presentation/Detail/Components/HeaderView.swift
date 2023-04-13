@@ -10,7 +10,6 @@ struct HeaderView: View {
         VStack(alignment: .center) {
             
             CacheImageView(urlImage: character.image)
-                .padding(.top, 20)
                 .scaleEffect( isAnimating ? 1 : 0.5)
             
             Text(character.name)
@@ -21,10 +20,10 @@ struct HeaderView: View {
                 .offset(y: isAnimating ? 0 : -75)
                 
             HStack(alignment: .center, spacing: 30) {
-                TextTitleView(title: "Genero", value: character.gender)
-                TextTitleView(title: "Specie", value: character.species)
-                TextTitleView(title: "Origin", value: character.origin.name.toFirstElement())
-                TextTitleView(title: "Status", value: character.status)
+                TextTitleView(title: "gender".localized(), value: character.gender)
+                TextTitleView(title: "specie".localized(), value: character.species)
+                TextTitleView(title: "origin".localized(), value: character.origin.name.toFirstElement())
+                TextTitleView(title: "status".localized(), value: character.status)
             }.padding(.bottom, 20)
             .offset(y: isAnimating ? 0 : -75)
             Divider()
@@ -39,11 +38,13 @@ struct HeaderView: View {
     }
 }
 
+#if DEBUG
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(character: MockDetailView.mockCharacter())
+        HeaderView(character: MockCharacterDetailView.mockCharacter())
         .previewLayout(.sizeThatFits)
         .padding()
         
     }
 }
+#endif

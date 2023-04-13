@@ -1,5 +1,3 @@
-import Foundation
-
 struct Info {
     let count: Int
     let pages: Int
@@ -9,6 +7,6 @@ struct Info {
 
 extension InfoModel {
     var toInfo: Info {
-        Info(count: self.count, pages: self.pages, next: self.next, prev: self.prev)
+        Info(count: self.count ?? 0, pages: self.pages ?? 0, next: self.next, prev: self.prev)
     }
 }

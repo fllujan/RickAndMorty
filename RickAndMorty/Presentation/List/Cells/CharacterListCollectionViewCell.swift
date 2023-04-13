@@ -1,7 +1,7 @@
 import UIKit
 import Kingfisher
 
-class CharacterListCollectionViewCell: UICollectionViewCell {
+final class CharacterListCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var title: UILabel!
@@ -13,12 +13,12 @@ class CharacterListCollectionViewCell: UICollectionViewCell {
     private func updateData() {
         animationCell()
         imageView.kf.setImage(
-            with: URL(string: self.character.image),
+            with: URL(string: character.image),
             placeholder: UIImage(named: "no_image"),
-            options: [ .loadDiskFileSynchronously, .cacheOriginalImage, .transition(.fade(0.25))]
+            options: [.loadDiskFileSynchronously, .cacheOriginalImage, .transition(.fade(0.25))]
         )
         
-        title.text = self.character.name
+        title.text = character.name
     }
     
     override func prepareForReuse() {
@@ -33,9 +33,9 @@ class CharacterListCollectionViewCell: UICollectionViewCell {
         title.font = UIFont().rounded()
     }
     
-    func animationCell() {
-        self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        self.alpha = 0
+    private func animationCell() {
+        transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        alpha = 0
         
         UIView.animate(withDuration: 0.4, delay: 0, options: [.curveEaseInOut]) {
             self.alpha = 1

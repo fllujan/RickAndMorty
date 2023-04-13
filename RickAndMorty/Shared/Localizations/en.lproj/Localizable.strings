@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  RickAndMorty
+
+  Created by Félix Luján on 4/4/23.
+  
+*/
+"character_not_found" = "No characters found";
+"error_generic" = "Sorry, something went wrong. Please try again later or contact support.";
+"characters" = "Characters";
+"gender" = "Gender";
+"specie" = "Specie";
+"origin" = "Origin";
+"status" = "Status";
+"episodes" = "Episodes";
+"title_not_available" = "Title not available";
+"status_not_available" = "Status not disponible";
+"species_not_available" = "Species not disponible";
+"type_not_available" = "Type not disponible";
+"gender_not_available" = "Gender not disponible";
+"date_not_available" = "Date not available";
+"number_not_available" = "Number not available";

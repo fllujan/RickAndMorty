@@ -4,11 +4,11 @@ import XCTest
 final class CharactersUseCaseTests: XCTestCase {
     
     private var mockRepository: MockRepository!
-    private var sut: CharactersUseCase!
+    private var sut: CharactersUseCaseImpl!
 
     override func setUpWithError() throws {
         mockRepository = MockRepository()
-        sut = CharactersUseCase(repository: mockRepository)
+        sut = CharactersUseCaseImpl(repository: mockRepository)
     }
 
     override func tearDownWithError() throws {
@@ -17,7 +17,7 @@ final class CharactersUseCaseTests: XCTestCase {
     }
     
     func test_when_call_characters_repository_should_call_repository() {
-        let _ = sut.execute(next: 1, searchText: "")
+        let _ = sut.run(params: ListCharacterParams(next: 1, searchText: ""))
         
         XCTAssertTrue(mockRepository.repoCall)
         XCTAssertEqual(mockRepository.repoCount, 1)
@@ -27,10 +27,10 @@ final class CharactersUseCaseTests: XCTestCase {
         let name = "Rick Sanche"
         let status = "Alive"
         let species = "Human"
-        let pages = 42
+        let pages = 1
         let next = "https://rickandmortyapi.com/api/character?page=2"
         
-        let result = sut.execute(next: 1, searchText: "")
+        let result = sut.run(params: ListCharacterParams(next: 1, searchText: ""))
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertTrue(isData)
@@ -50,7 +50,7 @@ final class CharactersUseCaseTests: XCTestCase {
     func test_when_call_characters_result_error_should_see_the_error() {
         mockRepository.repoError = true
         
-        let result = sut.execute(next: 1, searchText: "")
+        let result = sut.run(params: ListCharacterParams(next: 1, searchText: ""))
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertFalse(isData)

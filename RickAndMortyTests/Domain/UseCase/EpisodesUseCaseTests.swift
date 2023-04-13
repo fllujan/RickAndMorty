@@ -4,11 +4,11 @@ import XCTest
 final class EpisodesUseCaseTests: XCTestCase {
 
     private var mockRepository: MockRepository!
-    private var sut: EpisodesUseCase!
+    private var sut: EpisodesUseCaseImpl!
 
     override func setUpWithError() throws {
         mockRepository = MockRepository()
-        sut = EpisodesUseCase(repository: mockRepository)
+        sut = EpisodesUseCaseImpl(repository: mockRepository)
     }
 
     override func tearDownWithError() throws {
@@ -17,7 +17,7 @@ final class EpisodesUseCaseTests: XCTestCase {
     }
     
     func test_when_call_episodes_repository_should_call_repository() {
-        let _ = sut.execute(character: MockCharacter.anCharacter())
+        let _ = sut.run(params: EpisodesParams(character: MockCharacter.anCharacter()))
         
         XCTAssertTrue(mockRepository.repoCall)
         XCTAssertEqual(mockRepository.repoCount, 1)
@@ -29,7 +29,7 @@ final class EpisodesUseCaseTests: XCTestCase {
         let airDate = "December 2, 2013"
         let episodeNumber = "S01E01"
         
-        let result = sut.execute(character: MockCharacter.anCharacter())
+        let result = sut.run(params: EpisodesParams(character: MockCharacter.anCharacter()))
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertTrue(isData)
@@ -47,7 +47,7 @@ final class EpisodesUseCaseTests: XCTestCase {
     func test_when_call_episodes_result_error_should_see_the_error() {
         mockRepository.repoError = true
         
-        let result = sut.execute(character: MockCharacter.anCharacter())
+        let result = sut.run(params: EpisodesParams(character: MockCharacter.anCharacter()))
         
         CheckCombine.with(result) { isError, isData in
             XCTAssertFalse(isData)

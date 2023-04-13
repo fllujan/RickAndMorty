@@ -1,8 +1,6 @@
-import Foundation
-
-extension CharacterDetailView {
-    static func build(character: Character) -> CharacterDetailView {
-        return CharacterDetailView(viewModel: CharacterDetailViewFactory.makeCharacterDetailViewModel(),
-                                   character: character)
+extension CharacterDetailView<CharacterDetailViewModel> {
+    
+    static func buildWith(_ character: Character) -> CharacterDetailView<CharacterDetailViewModel> {
+        CharacterDetailView(viewModel: CharacterDetailViewFactory.makeCharacterDetailViewModel(), character: character)
     }
 }

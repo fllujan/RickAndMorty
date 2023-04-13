@@ -22,8 +22,11 @@ struct CacheImageView: View {
     }
 }
 
+
+#if DEBUG
 struct CacheImageView_Previews: PreviewProvider {
     static var previews: some View {
         CacheImageView(urlImage: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
     }
 }
+#endif

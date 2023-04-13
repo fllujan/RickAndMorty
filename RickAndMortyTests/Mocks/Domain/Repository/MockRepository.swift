@@ -18,7 +18,7 @@ final class MockRepository: Repository {
         return Result.Publisher(.success(([MockCharacter.anCharacter()], MockInfo.anInfo()))).eraseToAnyPublisher()
     }
     
-    func getEpisodes(episodeId: String) -> AnyPublisher<[Episode], Failure> {
+    func getEpisodes(character: Character) -> AnyPublisher<[Episode], Failure> {
         repoCall = true
         repoCount += 1
         
@@ -28,6 +28,4 @@ final class MockRepository: Repository {
         
         return Result.Publisher(.success([MockEpisode.anEpisode()])).eraseToAnyPublisher()
     }
-    
-    
 }

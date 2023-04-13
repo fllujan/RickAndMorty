@@ -1,31 +1,25 @@
-//
-//  CharacterSearchAdpater.swift
-//  RickAndMorty
-//
-//  Created by Félix Luján on 14/3/23.
-//
-
 import UIKit
 
-protocol CharacterSearchAdapterDelegate {
-    func setSearchBar(_ searchBar: UISearchBar)
+protocol CharacterSearchAdapterManager {
+    func setManagerView(_ searchController: UISearchController)
 }
 
-class CharacterSearchAdapter: NSObject, CharacterSearchAdapterDelegate {
+final class CharacterSearchAdapter: NSObject, CharacterSearchAdapterManager {
     
-    private weak var controller: CharacterListViewControllerDelegate?
+    private weak var delegate: CharacterListViewControllerDelegate?
     
-    init(controller: CharacterListViewControllerDelegate) {
-        self.controller = controller
+    init(delegate: CharacterListViewControllerDelegate) {
+        self.delegate = delegate
     }
     
-    func setSearchBar(_ searchBar: UISearchBar) {
-        searchBar.delegate = self
+    func setManagerView(_ searchController: UISearchController) {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
     }
 }
 
 extension CharacterSearchAdapter: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        controller?.didFilterWithResult(searchText)
+        delegate?.searchWithText(searchText.trim())
     }
 }

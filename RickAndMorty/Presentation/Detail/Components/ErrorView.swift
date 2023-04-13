@@ -2,35 +2,29 @@ import SwiftUI
 
 struct ErrorView: View {
     
-    var type: Failure
+    var error: Failure
     
     var body: some View {
-        switch type {
-        case .dbError:
-            showError(message: "Sorry, something went wrong. Please try again later or contact support.")
-        case .generic:
-            showError(message: "Sorry, something went wrong. Please try again later or contact support.")
-        case .httpResponseError:
-            showError(message: "Sorry, something went wrong. Please try again later or contact support.")
-        default:
-            showError(message: "Sorry, something went wrong. Please try again later or contact support.")
-        }
-    }
-    
-    func showError(message: String) -> some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(Color.red)
             .overlay(
-                Text(message)
+                Text(getMessageError())
                     .foregroundColor(.white)
                     .padding(.horizontal, 10)
             )
             .frame(maxHeight: 60)
+            .padding()
+    }
+    
+    private func getMessageError() -> String {
+        error == .noFound ? "character_not_found".localized() : error.localizedDescription
     }
 }
 
+#if DEBUG
 struct ErrorView_Previews: PreviewProvider {
     static var previews: some View {
-        ErrorView(type: .dbError)
+        ErrorView(error: .dbError)
     }
 }
+#endif

@@ -10,7 +10,7 @@ struct DetailView: View {
             LazyVStack(alignment: .leading) {
                 HeaderView(character: character)
                 
-                Text("Episodes")
+                Text("episodes".localized())
                     .font(.system(.title, design: .rounded))
                     .bold()
                     .padding(.top, 20)
@@ -25,10 +25,12 @@ struct DetailView: View {
     }
 }
 
+#if DEBUG
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(character: MockDetailView.mockCharacter(),
-                   episodes: [MockDetailView.mockEpisode()]
+        DetailView(character: MockCharacterDetailView.mockCharacter(),
+                   episodes: [MockCharacterDetailView.mockEpisode()]
         )
     }
 }
+#endif

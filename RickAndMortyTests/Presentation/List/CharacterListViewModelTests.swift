@@ -4,22 +4,33 @@ import Combine
 
 final class CharacterListViewModelTests: XCTestCase {
     
-    private var isLoading: Bool = false
-    private var isData: Bool = false
-    private var isError: Bool = false
-    
     private var mockCharactersUseCase: MockCharactersUseCase!
-    private var sut: CharacterListviewModel!
+    private var mockSearchCharacterUseCase: MockSearchCharacterUseCase!
+    private var mockViewsCoordinator: MockViewsCoordinator!
+    private var sut: CharacterListViewModel!
     
     override func setUpWithError() throws {
         mockCharactersUseCase = MockCharactersUseCase()
+        mockSearchCharacterUseCase = MockSearchCharacterUseCase()
+        mockViewsCoordinator = MockViewsCoordinator()
         
-        sut = CharacterListviewModel(charactersUseCase: mockCharactersUseCase)
+        sut = CharacterListViewModel(charactersUseCase: mockCharactersUseCase,
+                                     searchCharactersUseCase: mockSearchCharacterUseCase,
+                                     viewsCoordinator: mockViewsCoordinator)
     }
 
     override func tearDownWithError() throws {
         mockCharactersUseCase = nil
+        mockSearchCharacterUseCase = nil
+        mockViewsCoordinator = nil
         sut = nil
+    }
+    
+    func test_when_selected_character_should_go_to_detail_character() {
+        sut.selectedCharacter(MockCharacter.anCharacter())
+        
+        XCTAssertTrue(mockViewsCoordinator.isCall)
+        XCTAssertEqual(mockViewsCoordinator.countCall, 1)
     }
 
     func test_when_call_list_characters_should_call_all_use_case()  {
@@ -30,27 +41,9 @@ final class CharacterListViewModelTests: XCTestCase {
     }
     
     func test_when_list_characters_should_return_characters_and_info() {
-        let name = "Rick Sanche"
-        let status = "Alive"
-        let species = "Human"
-        let pages = 42
-        let next = "https://rickandmortyapi.com/api/character?page=2"
-        
         sut.loadMoreCharacters()
         
-        checkEvent {
-            XCTAssertTrue(self.isData)
-            XCTAssertFalse(self.isError)
-        } onData: { characterAndInfo in
-            let character = characterAndInfo.characters.first!
-            let info = characterAndInfo.info
-            
-            XCTAssertEqual(character.name, name)
-            XCTAssertEqual(character.status, status)
-            XCTAssertEqual(character.species, species)
-            XCTAssertEqual(info.pages, pages)
-            XCTAssertEqual(info.next, next)
-        }
+        checkEventCharacters()
     }
     
     func test_when_call_characters_and_result_error_characters_should_see_the_error() {
@@ -58,61 +51,32 @@ final class CharacterListViewModelTests: XCTestCase {
         
         sut.loadMoreCharacters()
         
-        checkEvent {
-            XCTAssertTrue(self.isLoading)
-            XCTAssertFalse(self.isData)
-        }  onError: { error in
+        CheckPublisher.with(sut.event) { isLoading in
+            XCTAssertTrue(isLoading)
+        } onData: { data in
+            XCTAssertNil(data)
+        } onError: { error in
             XCTAssertEqual(error, .httpResponseError)
         }
-
     }
     
     func test_when_search_characters_should_return_characters() {
-        let name = "Rick Sanche"
-        let status = "Alive"
-        let species = "Human"
-        let pages = 42
-        let next = "https://rickandmortyapi.com/api/character?page=2"
-        
         sut.searchCharacters("Rick Sanche")
         
-        checkEvent {
-            XCTAssertTrue(self.isData)
-            XCTAssertFalse(self.isError)
-        } onData: { characterAndInfo in
-            let character = characterAndInfo.characters.first!
-            let info = characterAndInfo.info
-            
-            XCTAssertEqual(character.name, name)
-            XCTAssertEqual(character.status, status)
-            XCTAssertEqual(character.species, species)
-            XCTAssertEqual(info.pages, pages)
-            XCTAssertEqual(info.next, next)
-        }
+        checkEventCharacters()
     }
-}
-
-
-extension CharacterListViewModelTests {
     
-    private func checkEvent(onLoading: @escaping () -> Void, onData: ((CharacterAndInfo) -> Void)? = nil, onError: ((Failure?) -> Void)? = nil) {
-        let exp = expectation(description: "waiting")
-        let cancellable = sut.$event.sink { event in
-            switch event {
-            case .loading:
-                self.isLoading = true
-            case .data(data: let data):
-                self.isData = true
-                onData?(data)
-                exp.fulfill()
-            case .error(error: let error):
-                self.isError = true
-                onError?(error)
-                exp.fulfill()
-            }
+    private func checkEventCharacters() {
+        CheckPublisher.with(sut.event) { isLoading in
+            XCTAssertTrue(isLoading)
+        } onData: { characters in
+            let character = characters.first!
+            
+            XCTAssertEqual(character.name, "Rick Sanche")
+            XCTAssertEqual(character.status, "Alive")
+            XCTAssertEqual(character.species, "Human")
+        } onError: { error in
+            XCTAssertNil(error)
         }
-        
-        wait(for: [exp], timeout: 1)
-        cancellable.cancel()
     }
 }

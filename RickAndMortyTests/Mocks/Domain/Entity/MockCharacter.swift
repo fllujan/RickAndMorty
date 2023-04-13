@@ -1,4 +1,3 @@
-import Foundation
 @testable import RickAndMorty
 
 struct MockCharacter {
@@ -13,7 +12,7 @@ struct MockCharacter {
                   origin: Location(name: "Locatio", url: "name"),
                   location: Location(name: "name", url: "url"),
                   image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
-                  episodeId:[ "10,11"], url: "", created: ""
+                  episodeIds: "10,11", url: "", created: ""
         )
     }
 }

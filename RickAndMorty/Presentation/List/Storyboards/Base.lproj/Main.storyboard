@@ -18,15 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="eAj-12-Fis">
-                                <rect key="frame" x="0.0" y="48" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="hJZ-mI-OL1"/>
-                                </connections>
-                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aqT-U8-kwJ">
-                                <rect key="frame" x="0.0" y="104" width="414" height="758"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="40" minimumInteritemSpacing="10" id="TE9-1t-Ua8">
                                     <size key="itemSize" width="167" height="211"/>
@@ -87,19 +80,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="aqT-U8-kwJ" firstAttribute="top" secondItem="eAj-12-Fis" secondAttribute="bottom" id="FAS-4R-eLF"/>
-                            <constraint firstItem="eAj-12-Fis" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Kq4-ke-ONL"/>
+                            <constraint firstItem="aqT-U8-kwJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="E1j-HN-lzm"/>
                             <constraint firstItem="aqT-U8-kwJ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="dG3-td-NDy"/>
-                            <constraint firstItem="eAj-12-Fis" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qpD-6B-hDA"/>
                             <constraint firstItem="aqT-U8-kwJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qz6-aM-FAa"/>
-                            <constraint firstItem="eAj-12-Fis" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uaj-GO-XHc"/>
                             <constraint firstItem="aqT-U8-kwJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="x70-l8-7H1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aPR-5Y-vPT"/>
                     <connections>
-                        <outlet property="clvCharacter" destination="aqT-U8-kwJ" id="aHk-Rg-qUy"/>
-                        <outlet property="srBCharacter" destination="eAj-12-Fis" id="m91-WK-goD"/>
+                        <outlet property="displayCharacter" destination="aqT-U8-kwJ" id="GLs-0g-LgE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

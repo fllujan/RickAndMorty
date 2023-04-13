@@ -1,7 +1,6 @@
 struct CharacterDetailViewFactory {
-    
-    static func makeEpisodesUseCase() -> EpisodesUseCase {
-        EpisodesUseCase(repository: makeRepository())
+    static func makeEpisodesUseCase() -> EpisodesUseCaseImpl {
+        EpisodesUseCaseImpl(repository: Factory.shared.makeRepository())
     }
     
     static func makeCharacterDetailViewModel() -> CharacterDetailViewModel {

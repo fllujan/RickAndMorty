@@ -1,7 +1,9 @@
-import Foundation
-
 struct CharacterListFactory {
     static func makeCharactersUseCase() -> CharactersUseCase {
-        CharactersUseCase(repository: makeRepository())
+        CharactersUseCaseImpl(repository: Factory.shared.makeRepository())
+    }
+    
+    static func makeSearchCharactersUseCase() -> SearchCharactersUseCase {
+        SearchCharactersUseCaseImpl()
     }
 }

@@ -21,18 +21,17 @@ final class CharacaterDetailViewUITests: XCTestCase {
         element.staticTexts["Rick Sanchez"].tap()
         let elementsQuery = app.scrollViews.otherElements
         
-        
         XCTAssertTrue(elementsQuery.staticTexts["Rick Sanchez"].exists)
         XCTAssertTrue(elementsQuery.staticTexts["Male"].exists)
         XCTAssertTrue(elementsQuery.staticTexts["Human"].exists)
         XCTAssertTrue(elementsQuery.staticTexts["Earth"].exists)
         XCTAssertTrue(elementsQuery.staticTexts["Alive"].exists)
-        XCTAssertTrue(elementsQuery.staticTexts["Genero"].exists)
-        XCTAssertTrue(elementsQuery.staticTexts["Specie"].exists)
-        XCTAssertTrue(elementsQuery.staticTexts["Origin"].exists)
-        XCTAssertTrue(elementsQuery.staticTexts["Status"].exists)
+        XCTAssertTrue(elementsQuery.staticTexts["status".localized()].exists)
+        XCTAssertTrue(elementsQuery.staticTexts["gender".localized()].exists)
+        XCTAssertTrue(elementsQuery.staticTexts["specie".localized()].exists)
+        XCTAssertTrue(elementsQuery.staticTexts["origin".localized()].exists)
         
-        XCTAssertTrue(elementsQuery.staticTexts["Episodes"].exists)
+        XCTAssertTrue(elementsQuery.staticTexts["episodes".localized()].exists)
         elementsQuery.staticTexts["Anatomy Park"].swipeUp()
         XCTAssertTrue(elementsQuery.staticTexts["S01E03"].exists)
         XCTAssertTrue(elementsQuery.staticTexts["December 16, 2013"].exists)
@@ -46,7 +45,6 @@ final class CharacaterDetailViewUITests: XCTestCase {
         
         element.staticTexts["Rick Sanchez"].tap()
         
-        XCTAssertTrue(app.staticTexts["Sorry, something went wrong. Please try again later or contact support."].exists)
-        
+        XCTAssertTrue(app.staticTexts["error_generic".localized()].exists)
     }
 }

@@ -1,25 +1,48 @@
 import UIKit
 
-protocol CharacterListApapterDelegate {
+protocol CharacterListAdapterManager {
     var arrayData: [Character] { set get }
-    var reload: Bool { set get }
-    func setCollectionView(_ collectionView: UICollectionView)
+    func setManagerView(_ collectionView: UICollectionView)
+    func checkCharacterNotFound()
 }
 
-class CharacterListAdapter: NSObject, CharacterListApapterDelegate {
+final class CharacterListAdapter: NSObject, CharacterListAdapterManager {
     
-    private weak var controller: CharacterListViewControllerDelegate?
+    private weak var delegate: CharacterListViewControllerDelegate?
+    private var collectionView: UICollectionView?
+    private var reload: Bool = true
+    private let noFoundLabel: UILabel = {
+        let label = UILabel()
+        label.text = "character_not_found".localized()
+        label.font = .boldSystemFont(ofSize: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
-    var arrayData = [Character]()
-    var reload: Bool = true
-    
-    init(controller: CharacterListViewControllerDelegate) {
-        self.controller = controller
+    var arrayData = [Character]() {
+        didSet {
+            collectionView?.reloadData()
+            reload = true
+        }
     }
     
-    func setCollectionView(_ collectionView: UICollectionView) {
+    init(delegate: CharacterListViewControllerDelegate) {
+        self.delegate = delegate
+    }
+    
+    func setManagerView(_ collectionView: UICollectionView) {
+        self.collectionView = collectionView
+        collectionView.addSubview(noFoundLabel)
+        noFoundLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        noFoundLabel.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+        noFoundLabel.isHidden = true
+        
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    func checkCharacterNotFound() {
+        noFoundLabel.isHidden = arrayData.count != 0
     }
 }
 
@@ -30,22 +53,22 @@ extension CharacterListAdapter: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        CharacterListCollectionViewCell.buildIn(collectionView, indexPath: indexPath, character: arrayData[indexPath.row])
+        guard arrayData.count >= indexPath.row else { return UICollectionViewCell() }
+        return CharacterListCollectionViewCell.buildIn(collectionView, indexPath: indexPath, character: arrayData[indexPath.row])
     }
-    
 }
 
 extension CharacterListAdapter: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if (indexPath.row == arrayData.count - 1 && reload) {
-            controller?.getMoreCharacters()
+            reload = false
+            delegate?.getMoreCharacters()
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        controller?.goToDetail(self.arrayData[indexPath.row])
+        delegate?.selectedCharacter(self.arrayData[indexPath.row])
     }
-
 }

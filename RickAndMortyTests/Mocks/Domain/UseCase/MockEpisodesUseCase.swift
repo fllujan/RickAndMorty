@@ -1,14 +1,13 @@
-import Foundation
 import Combine
 @testable import RickAndMorty
 
-final class MockEpisodesUseCase: EpisodesProtocol {
+final class MockEpisodesUseCase: EpisodesUseCase {
     
     var isCall: Bool = false
     var countCall: Int = 0
     var isError: Bool = false
     
-    func execute(character: Character) -> AnyPublisher<[Episode], Failure> {
+    override func run(params: EpisodesParams) -> AnyPublisher<[Episode], Failure>{
         self.isCall = true
         self.countCall += 1
         
@@ -17,6 +16,5 @@ final class MockEpisodesUseCase: EpisodesProtocol {
         }
         
         return Result.Publisher(.success([MockEpisode.anEpisode()])).eraseToAnyPublisher()
-        
     }
 }

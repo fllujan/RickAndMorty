@@ -17,8 +17,11 @@ struct TextTitleView: View {
     }
 }
 
+
+#if DEBUG
 struct TextView_Previews: PreviewProvider {
     static var previews: some View {
         TextTitleView(title: "Especies", value:  "Male")
     }
 }
+#endif

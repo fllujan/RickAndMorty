@@ -1,4 +1,3 @@
-import Foundation
 import Combine
 
 final class MockRepository: Repository {
@@ -9,7 +8,7 @@ final class MockRepository: Repository {
             .eraseToAnyPublisher()
     }
     
-    func getEpisodes(episodeId: String) -> AnyPublisher<[Episode], Failure> {
+    func getEpisodes(character: Character) -> AnyPublisher<[Episode], Failure> {
         if CommandLine.arguments.contains("mockError") {
             return Result.Publisher(.failure(Failure.httpResponseError)).eraseToAnyPublisher()
         }

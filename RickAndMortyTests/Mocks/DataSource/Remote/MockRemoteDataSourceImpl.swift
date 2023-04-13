@@ -1,7 +1,6 @@
 import Combine
 @testable import RickAndMorty
 
-
 final class MockRemoteDataSourceImpl: RemoteDataSource {
     
     var remoteCall: Bool = false
@@ -21,7 +20,7 @@ final class MockRemoteDataSourceImpl: RemoteDataSource {
         }
     }
     
-    func getEpisodes(episodeId: String) -> Future<[EpisodeDto], Failure> {
+    func getEpisodes(episodeIds: String) -> Future<[EpisodeDto], Failure> {
         remoteCall = true
         remoteCount += 1
         
@@ -33,5 +32,4 @@ final class MockRemoteDataSourceImpl: RemoteDataSource {
             }
         }
     }
-    
 }

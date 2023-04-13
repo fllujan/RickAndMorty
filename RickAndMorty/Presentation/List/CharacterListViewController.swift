@@ -1,36 +1,30 @@
 import UIKit
-import SwiftUI
 import Combine
 
-protocol CharacterListViewControllerDelegate: NSObjectProtocol {
-    func goToDetail(_ character: Character)
+protocol CharacterListViewControllerDelegate: AnyObject {
+    func selectedCharacter(_ character: Character)
     func getMoreCharacters()
-    func didFilterWithResult(_ searchText: String)
+    func searchWithText(_ searchText: String)
 }
 
-class CharacterListViewController: UIViewController {
+final class CharacterListViewController: UIViewController {
     
-    @IBOutlet private weak var clvCharacter: UICollectionView!
-    @IBOutlet private weak var srBCharacter: UISearchBar!
+    @IBOutlet private weak var displayCharacter: UICollectionView!
     
     private var cancellables: Set<AnyCancellable> = []
+    private let searchCharacter = UISearchController(searchResultsController: nil)
+    private let spinner = UIActivityIndicatorView()
     
-    private let spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView()
-        spinner.tintColor = .label
-        spinner.hidesWhenStopped = true
-        return spinner
-    }()
-    
-    var viewModel: CharacterListviewModel?
-    var listAdapter: CharacterListApapterDelegate?
-    var searchAdpater: CharacterSearchAdapterDelegate?
+    var viewModel: CharacterListViewModelManager?
+    var listAdapter: CharacterListAdapterManager?
+    var searchAdapter: CharacterSearchAdapterManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(spinner)
-        suscriptions()
+        setupNavigation()
         setupAdapter()
+        suscriptions()
     }
     
     override func viewDidLayoutSubviews() {
@@ -38,43 +32,71 @@ class CharacterListViewController: UIViewController {
         spinner.frame = view.bounds
     }
     
+    func setupNavigation() {
+        navigationItem.searchController = searchCharacter
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
     func setupAdapter() {
-        listAdapter?.setCollectionView(clvCharacter)
-        searchAdpater?.setSearchBar(srBCharacter)
+        listAdapter?.setManagerView(displayCharacter)
+        searchAdapter?.setManagerView(searchCharacter)
     }
     
     private func suscriptions() {
-        viewModel?.$event.sink { [weak self] event in
-            switch event {
+        viewModel?.event.sink { [weak self] event in
+            switch event { 
             case .loading:
-                self?.spinner.startAnimating()
+                self?.onLoading()
             case .error(let error):
-                print(error)
-                self?.spinner.stopAnimating()
-            case .data(let data):
-                self?.spinner.stopAnimating()
-                self?.listAdapter?.arrayData.append(contentsOf: data.characters)
-                self?.listAdapter?.reload = true
-                self?.clvCharacter.reloadData()
+                self?.onError(error)
+            case .data(let characters):
+                self?.onSuccess(characters)
             }
         }
         .store(in: &cancellables)
+                        
+        viewModel?.searchDuplicate.sink { [weak self] isDuplicate in
+            switch isDuplicate {
+            case false:
+                self?.onInitSearch()
+            default: break
+            }
+        }
+        .store(in: &cancellables)
+    }
+    
+    private func onLoading() {
+        spinner.startAnimating()
+    }
+    
+    private func onError(_ error: Failure) {
+        spinner.stopAnimating()
+        showAlertError(error)
+        listAdapter?.checkCharacterNotFound()
+    }
+    
+    private func onSuccess(_ characters: [Character]) {
+        spinner.stopAnimating()
+        listAdapter?.arrayData.append(contentsOf: characters)
+        listAdapter?.checkCharacterNotFound()
+    }
+    
+    private func onInitSearch() {
+        spinner.startAnimating()
+        listAdapter?.arrayData = []
     }
 }
 
 extension CharacterListViewController: CharacterListViewControllerDelegate {
     func getMoreCharacters() {
-        listAdapter?.reload = false
         viewModel?.loadMoreCharacters()
     }
     
-    func goToDetail(_ character: Character) {
-        let controller = UIHostingController(rootView: CharacterDetailView.build(character: character))
-        navigationController?.pushViewController(controller, animated: true)
+    func selectedCharacter(_ character: Character) {
+        viewModel?.selectedCharacter(character)
     }
     
-    func didFilterWithResult(_ searchText: String) {
-        listAdapter?.arrayData = []
+    func searchWithText(_ searchText: String) {
         viewModel?.searchCharacters(searchText)
     }
 }
